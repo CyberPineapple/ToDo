@@ -8,7 +8,7 @@
   src: url(./fonts/Dited.otf);
 }
 
-body{
+body {
   background-color: black;
 }
 .logo {
@@ -30,17 +30,17 @@ body{
   animation: pacman1 1s infinite alternate-reverse;
   transform-origin: center bottom;
 }
-.pacman__item1::before{
+.pacman__item1::before {
   position: absolute;
-  content: '';
+  content: "";
   width: 100%;
   height: 200%;
   background-color: yellow;
   border-radius: 50% 50% 0 0;
 }
-.pacman__item1::after{
+.pacman__item1::after {
   position: absolute;
-  content: '';
+  content: "";
   left: 70%;
   top: 50%;
   width: 10%;
@@ -56,15 +56,15 @@ body{
   animation: pacman2 1s infinite alternate-reverse;
   transform-origin: center bottom;
 }
-.pacman__item2::before{
+.pacman__item2::before {
   position: absolute;
-  content: '';
+  content: "";
   width: 100%;
   height: 200%;
   background-color: yellow;
   border-radius: 50% 50% 0 0;
 }
-.message{
+.message {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -76,13 +76,13 @@ body{
   list-style: none;
   position: relative;
 }
-.message:hover{
+.message:hover {
   background-color: rgba(104, 29, 179, 0.431);
 }
-.footer{
+.footer {
   color: white;
   text-align: center;
-  font-size: 60px;
+  font-size: 20px;
 }
 .label {
   color: white;
@@ -92,7 +92,7 @@ body{
   position: relative;
   transition: 1s;
 }
-.completed__all{
+.completed__all {
   color: white;
   height: 20px;
   width: 20px;
@@ -106,30 +106,30 @@ body{
   position: relative;
   left: -25px;
 }
-.item-checkbox::after{
+.item-checkbox::after {
   visibility: visible;
   height: 100%;
   width: 100%;
-  content: '';
+  content: "";
   position: absolute;
   border: 2px solid white;
 }
 
-.item-checkbox:checked::after{
-  background-image: url(https://cdn.icon-icons.com/icons2/665/PNG/512/alien_pixel_icon-icons.com_60289.png);
+.item-checkbox:checked::after {
+  background-image: url(./images/alien_pixel_icon-icons.com_60289.png);
   background-size: cover;
 }
 
-@keyframes pacman1{
-  from{
+@keyframes pacman1 {
+  from {
     transform: rotate(0deg);
   }
   to {
     transform: rotate(-45deg);
   }
 }
-@keyframes pacman2{
-  from{
+@keyframes pacman2 {
+  from {
     transform: rotate(180deg);
   }
   to {
@@ -142,8 +142,8 @@ body{
   margin: auto;
   font-size: 30px;
   padding: 20px;
-  background-color: #F1F1F1;
-  border: 2px solid #F1F1F1;
+  background-color: #f1f1f1;
+  border: 2px solid #f1f1f1;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
 }
@@ -151,33 +151,35 @@ body{
   outline: none;
 }
 
-.main{
+.main {
   margin: auto;
   width: 409px;
-  border: 2px solid #F1F1F1;
-  background-image: url(https://img2.goodfon.ru/original/800x480/6/a1/8bit-vremya-sutki-noch-more-2339.jpg);
+  border: 2px solid #f1f1f1;
+  background-image: url(./images/8bit-vremya-sutki-noch-more-2339.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   height: 600px;
   position: relative;
 }
 
-.footer{
+.footer {
   width: 409px;
   margin: auto;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  border: 2px solid #F1F1F1;
+  justify-content: space-around;
+  border: 2px solid #f1f1f1;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
-.button{
+.button {
   font-size: 30px;
-  border-left: 2px solid #F1F1F1;
+  border-left: 2px solid #f1f1f1;
   text-align: center;
 }
 
-.completed{
+.completed {
   color: grey;
   text-decoration: line-through;
   transition: 1s;
@@ -187,7 +189,7 @@ body{
   display: none;
 }
 
-.delete-button{
+.delete-button {
   display: none;
 }
 
@@ -197,12 +199,12 @@ body{
   right: 20px;
   width: 20px;
   height: 20px;
-  background-image: url(https://c7.uihere.com/files/938/164/21/computer-icons-error-message-http-404-dialog-box-wrong-thumb.jpg);
+  background-image: url(./images/computer-icons-error-message-http-404-dialog-box-wrong-thumb.jpg);
   background-size: cover;
   opacity: 0.3;
-  transition: opacity .3s;
+  transition: opacity 0.3s;
 }
-.delete-button__view:hover{
+.delete-button__view:hover {
   opacity: 1;
 }
 
@@ -214,7 +216,7 @@ body{
   flex: 1;
 }
 
-.toggle-all{
+.toggle-all {
   width: 40px;
   height: 30px;
   position: absolute;
@@ -222,23 +224,31 @@ body{
   left: 15px;
   visibility: hidden;
 }
-.toggle-all::after{
+.toggle-all::after {
   position: absolute;
   background-image: url(http://www.clipartbest.com/cliparts/di8/pRL/di8pRL8XT.png);
   background-size: cover;
-  content: '';
+  content: "";
   width: 100%;
   height: 100%;
   visibility: visible;
-  opacity: .5;
+  opacity: 0.5;
 }
 
-.toggle-all:checked::after{
+.toggle-all:checked::after {
   opacity: 1;
 }
 
-.list{
+.list {
   height: 100%;
   width: 100%;
   overflow-y: scroll;
+}
+
+input[type="radio"] {
+  display: none;
+}
+
+input[type="radio"]:checked + label {
+  color: red;
 }
