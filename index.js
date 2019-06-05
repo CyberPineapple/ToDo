@@ -6,6 +6,7 @@ const counter = document.querySelector("[data-js-id=counter]");
 const buttonDeleteCompleted = document.querySelector(
   '[data-js-id="deleteCompleted"]'
 );
+const footer = document.querySelector("[data-js-id=footer]");
 
 let listAll = [];
 
@@ -128,7 +129,7 @@ reload = () => {
     }
     viewActiveElements();
   }
-  handleCompleted();
+  handleStateApp();
   counterActive();
 };
 
@@ -243,11 +244,15 @@ counterActive = () => {
   counter.innerText = `items left ${activeItems.length}`;
 };
 
-handleCompleted = () => {
+handleStateApp = () => {
   if (main.children[1].firstChild) {
     main.children[0].style.display = "block";
+    footer.classList.add('footer_view');
+    input.classList.remove('header__input_primal');
   } else {
     main.children[0].style.display = "none";
+    footer.classList.remove('footer_view');
+    input.classList.add('header__input_primal');
   }
   let completedList = listAll.filter(value => {
     return value.completed == true;

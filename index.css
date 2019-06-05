@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 @font-face {
   font-family: Dited;
   src: url(./fonts/Dited.otf);
@@ -12,6 +13,7 @@ body {
   background-color: black;
   min-width: 409px;
 }
+
 .logo {
   margin: auto;
   margin-top: 10px;
@@ -23,6 +25,7 @@ body {
   width: 100%;
   min-width: 400px;
 }
+
 .pacman {
   height: 100px;
   width: 100px;
@@ -37,6 +40,7 @@ body {
   animation: pacman1 1s infinite alternate-reverse;
   transform-origin: center bottom;
 }
+
 .pacman__item1::before {
   position: absolute;
   content: "";
@@ -45,6 +49,7 @@ body {
   background-color: yellow;
   border-radius: 50% 50% 0 0;
 }
+
 .pacman__item1::after {
   position: absolute;
   content: "";
@@ -55,6 +60,7 @@ body {
   background-color: black;
   border-radius: 50%;
 }
+
 .pacman__item2 {
   position: absolute;
   height: 50%;
@@ -63,6 +69,7 @@ body {
   animation: pacman2 1s infinite alternate-reverse;
   transform-origin: center bottom;
 }
+
 .pacman__item2::before {
   position: absolute;
   content: "";
@@ -71,6 +78,7 @@ body {
   background-color: yellow;
   border-radius: 50% 50% 0 0;
 }
+
 .item {
   display: flex;
   flex-direction: row;
@@ -83,9 +91,11 @@ body {
   list-style: none;
   position: relative;
 }
+
 .item:hover {
   background-color: rgba(104, 29, 179, 0.431);
 }
+
 .footer {
   color: white;
   text-align: center;
@@ -93,6 +103,11 @@ body {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.footer_view {
+  visibility: visible !important;
+}
+
 .item__text {
   color: white;
   word-wrap: break-word;
@@ -101,6 +116,7 @@ body {
   position: relative;
   transition: 1s;
 }
+
 .item__checkbox {
   display: block;
   width: 40px;
@@ -110,12 +126,14 @@ body {
   -webkit-appearance: none;
   -moz-appearance: none;
 }
+
 .item__checkbox::after {
   height: 100%;
   width: 100%;
   content: "";
   position: absolute;
   border: 2px solid white;
+  top: -2px;
 }
 
 .item__checkbox:checked::after {
@@ -127,14 +145,17 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(-45deg);
   }
 }
+
 @keyframes pacman2 {
   from {
     transform: rotate(180deg);
   }
+
   to {
     transform: rotate(225deg);
   }
@@ -155,7 +176,7 @@ body {
   border-top-right-radius: 30px;
 }
 
-.header__input::placeholder{
+.header__input::placeholder {
   text-align: center;
   opacity: .3;
 }
@@ -169,7 +190,8 @@ body {
   max-width: 600px;
   width: 100%;
   min-width: 400px;
-  border: 2px solid #f1f1f1;
+  border-left: 2px solid #f1f1f1;
+  border-right: 2px solid #f1f1f1;
   background-image: url(./images/8bit-vremya-sutki-noch-more-2339.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -191,6 +213,7 @@ body {
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   margin-bottom: 20px;
+  visibility: hidden;
 }
 
 .item__text_completed {
@@ -215,6 +238,7 @@ body {
 .item__button-delete_view {
   display: block;
 }
+
 .item__button-delete:hover {
   opacity: 1;
 }
@@ -239,6 +263,7 @@ body {
   -moz-appearance: none;
   outline: none;
 }
+
 .main__toggle-all::after {
   position: absolute;
   background-image: url(http://www.clipartbest.com/cliparts/di8/pRL/di8pRL8XT.png);
@@ -262,7 +287,7 @@ input[type="radio"] {
   display: none;
 }
 
-.footer__button{
+.footer__button {
   color: red;
   padding: 10px;
   cursor: pointer;
@@ -270,17 +295,17 @@ input[type="radio"] {
   transition: opacity .1s;
 }
 
-.footer__button:hover{
+.footer__button:hover {
   opacity: 1;
 }
 
-input[type="radio"]:checked + .footer__button {
+input[type="radio"]:checked+.footer__button {
   text-decoration: underline;
   text-decoration-color: white;
   opacity: 1;
 }
 
-.ghost{
+.ghost {
   height: 100px;
   width: 70px;
   position: relative;
@@ -288,7 +313,7 @@ input[type="radio"]:checked + .footer__button {
   margin-right: 5px;
 }
 
-.ghost__item1{
+.ghost__item1 {
   position: absolute;
   width: 100%;
   height: 80%;
@@ -299,7 +324,7 @@ input[type="radio"]:checked + .footer__button {
   justify-content: center;
 }
 
-.ghost__item2{
+.ghost__item2 {
   bottom: 0;
   left: 38%;
   position: absolute;
@@ -310,7 +335,7 @@ input[type="radio"]:checked + .footer__button {
   animation: ghost1 .8s linear infinite alternate-reverse;
 }
 
-.ghost__item3{
+.ghost__item3 {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -321,7 +346,7 @@ input[type="radio"]:checked + .footer__button {
   animation: ghost2 .8s linear infinite alternate-reverse;
 }
 
-.ghost__item4{
+.ghost__item4 {
   bottom: 0;
   right: 0;
   position: absolute;
@@ -336,6 +361,7 @@ input[type="radio"]:checked + .footer__button {
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(-20%);
   }
@@ -345,12 +371,13 @@ input[type="radio"]:checked + .footer__button {
   from {
     transform: translateY(-20%);
   }
+
   to {
     transform: translateY(0);
   }
 }
 
-.eyes{
+.eyes {
   width: 20%;
   height: 32%;
   background-color: white;
@@ -362,7 +389,7 @@ input[type="radio"]:checked + .footer__button {
   overflow: hidden;
 }
 
-.eyes:after{
+.eyes:after {
   content: '';
   width: 100%;
   height: 50%;
@@ -373,19 +400,19 @@ input[type="radio"]:checked + .footer__button {
   left: 20%;
 }
 
-.ghost__color_red{
+.ghost__color_red {
   background-color: red;
 }
 
-.ghost__color_blue{
+.ghost__color_blue {
   background-color: blue;
 }
 
-.ghost__color_orange{
+.ghost__color_orange {
   background-color: orange;
 }
 
-.ghosts{
+.ghosts {
   display: flex;
   flex-direction: row;
 }
@@ -394,19 +421,24 @@ input[type="radio"]:checked + .footer__button {
   padding: 10px;
 }
 
-.footer__delete-completed{
+.footer__delete-completed {
   padding: 10px;
   visibility: hidden;
   opacity: 0.5;
   transition: opacity .1s;
 }
 
-.footer__delete-completed_view{
+.footer__delete-completed_view {
   visibility: visible;
   cursor: pointer;
 }
 
-.footer__delete-completed:hover{
+.footer__delete-completed:hover {
   text-decoration: underline;
   opacity: 1;
+}
+
+.header__input_primal{
+  border-radius: 30px;
+  padding-left: 20px;
 }
