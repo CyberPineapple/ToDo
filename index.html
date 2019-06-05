@@ -14,25 +14,51 @@
                 <div class="pacman__item1"></div>
                 <div class="pacman__item2"></div>
             </div>
-            <div class="ghost">
-                <div class="ghost__item1"></div>
-                <div class="ghost__item2"></div>
-                <div class="ghost__item3"></div>
+            <div class="ghosts">
+              <div class="ghost">
+                <div class="ghost__item1 ghost__color_red">
+                  <div class="eyes"></div>
+                  <div class="eyes"></div>
+                </div>
+                <div class="ghost__item2 ghost__color_red"></div>
+                <div class="ghost__item3 ghost__color_red"></div>
+                <div class="ghost__item4 ghost__color_red"></div>
+              </div>
+              <div class="ghost">
+                <div class="ghost__item1 ghost__color_blue">
+                  <div class="eyes"></div>
+                  <div class="eyes"></div>
+                </div>
+                <div class="ghost__item2 ghost__color_blue"></div>
+                <div class="ghost__item3 ghost__color_blue"></div>
+                <div class="ghost__item4 ghost__color_blue"></div>
+              </div>
+              <div class="ghost">
+                <div class="ghost__item1 ghost__color_orange">
+                  <div class="eyes"></div>
+                  <div class="eyes"></div>
+                </div>
+                <div class="ghost__item2 ghost__color_orange"></div>
+                <div class="ghost__item3 ghost__color_orange"></div>
+                <div class="ghost__item4 ghost__color_orange"></div>
+              </div>
             </div>
         </div>
         <input class="header__input" type="text" name="" id="" autofocus data-js-id="input" placeholder="What needs to be done?">
     </div>
     <div class="main" data-js-id="main">
-      <input type="checkbox" name="" id="" class='toggle-all'>
+      <input type="checkbox" class='main__toggle-all'>
       <ul class="list"></ul>
     </div>
     <div class="footer">
+      <p data-js-id="counter" class="footer__counter">items 0</p>
       <input type="radio" name="button" id="all" checked>
-      <label for="all">all</label>
+      <label for="all" class="footer__button">all</label>
       <input type="radio" name="button" id="completed">
-      <label for="completed">completed</label>
+      <label for="completed" class="footer__button">completed</label>
       <input type="radio" name="button" id="active">
-      <label for="active">active</label>
+      <label for="active" class="footer__button">active</label>
+      <div class="footer__delete-completed" data-js-id="deleteCompleted">delete completed</div>
     </div>
     <script src="index.js"></script>
   </body>

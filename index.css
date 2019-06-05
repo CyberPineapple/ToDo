@@ -10,16 +10,23 @@
 
 body {
   background-color: black;
+  min-width: 409px;
 }
 .logo {
+  margin: auto;
   margin-top: 10px;
   margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  max-width: 600px;
+  width: 100%;
+  min-width: 400px;
 }
 .pacman {
   height: 100px;
   width: 100px;
   position: relative;
-  margin: auto;
 }
 
 .pacman__item1 {
@@ -64,7 +71,7 @@ body {
   background-color: yellow;
   border-radius: 50% 50% 0 0;
 }
-.message {
+.item {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -76,15 +83,17 @@ body {
   list-style: none;
   position: relative;
 }
-.message:hover {
+.item:hover {
   background-color: rgba(104, 29, 179, 0.431);
 }
 .footer {
   color: white;
   text-align: center;
   font-size: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
-.label {
+.item__text {
   color: white;
   word-wrap: break-word;
   width: 70%;
@@ -92,22 +101,16 @@ body {
   position: relative;
   transition: 1s;
 }
-.completed__all {
-  color: white;
-  height: 20px;
-  width: 20px;
-  background-color: aqua;
-}
-.item-checkbox {
+.item__checkbox {
   display: block;
   width: 40px;
   height: 40px;
-  visibility: hidden;
   position: relative;
-  left: -25px;
+  left: -50px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
-.item-checkbox::after {
-  visibility: visible;
+.item__checkbox::after {
   height: 100%;
   width: 100%;
   content: "";
@@ -115,7 +118,7 @@ body {
   border: 2px solid white;
 }
 
-.item-checkbox:checked::after {
+.item__checkbox:checked::after {
   background-image: url(./images/alien_pixel_icon-icons.com_60289.png);
   background-size: cover;
 }
@@ -142,10 +145,17 @@ body {
   margin: auto;
   font-size: 30px;
   padding: 20px;
+  max-width: 600px;
+  width: 100%;
+  min-width: 400px;
   background-color: #f1f1f1;
   border: 2px solid #f1f1f1;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
+}
+.header__input::placeholder{
+  text-align: center;
+  opacity: .3;
 }
 .header__input:focus {
   outline: none;
@@ -153,7 +163,9 @@ body {
 
 .main {
   margin: auto;
-  width: 409px;
+  max-width: 600px;
+  width: 100%;
+  min-width: 400px;
   border: 2px solid #f1f1f1;
   background-image: url(./images/8bit-vremya-sutki-noch-more-2339.jpg);
   background-repeat: no-repeat;
@@ -163,79 +175,76 @@ body {
 }
 
 .footer {
-  width: 409px;
+  max-width: 600px;
+  width: 100%;
+  min-width: 400px;
   margin: auto;
   display: flex;
   flex-direction: row;
+  flex-flow: row wrap;
+  flex-wrap: wrap;
   justify-content: space-around;
   border: 2px solid #f1f1f1;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
 }
 
-.button {
-  font-size: 30px;
-  border-left: 2px solid #f1f1f1;
-  text-align: center;
-}
-
-.completed {
+.item__text_completed {
   color: grey;
   text-decoration: line-through;
   transition: 1s;
 }
 
-.input-block {
+.item__button-delete {
   display: none;
-}
-
-.delete-button {
-  display: none;
-}
-
-.delete-button__view {
-  position: absolute;
-  display: block;
+  opacity: 0.5;
+  transition: opacity 0.3s;
+  cursor: pointer;
   right: 20px;
   width: 20px;
   height: 20px;
-  background-image: url(./images/computer-icons-error-message-http-404-dialog-box-wrong-thumb.jpg);
+  position: absolute;
+  background-image: url(./images/da3bd826876f76c.png);
   background-size: cover;
-  opacity: 0.3;
-  transition: opacity 0.3s;
 }
-.delete-button__view:hover {
+
+.item__button-delete_view {
+  display: block;
+}
+.item__button-delete:hover {
   opacity: 1;
 }
 
-.edit {
+.item__edit {
   position: absolute;
   display: block;
   height: 100%;
   width: 100%;
   flex: 1;
+  outline: none;
+  font-size: 20px;
 }
 
-.toggle-all {
+.main__toggle-all {
   width: 40px;
   height: 30px;
   position: absolute;
   top: -32px;
-  left: 15px;
-  visibility: hidden;
+  left: 20px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
-.toggle-all::after {
+.main__toggle-all::after {
   position: absolute;
   background-image: url(http://www.clipartbest.com/cliparts/di8/pRL/di8pRL8XT.png);
   background-size: cover;
   content: "";
   width: 100%;
   height: 100%;
-  visibility: visible;
   opacity: 0.5;
 }
 
-.toggle-all:checked::after {
+.main__toggle-all:checked::after {
   opacity: 1;
 }
 
@@ -249,6 +258,153 @@ input[type="radio"] {
   display: none;
 }
 
-input[type="radio"]:checked + label {
+.footer__button{
   color: red;
+  padding: 10px;
+  cursor: pointer;
+  opacity: 0.5;
+  transition: opacity .1s;
+}
+
+.footer__button:hover{
+  opacity: 1;
+}
+
+input[type="radio"]:checked + .footer__button {
+  text-decoration: underline;
+  text-decoration-color: white;
+  opacity: 1;
+}
+
+.ghost{
+  height: 100px;
+  width: 70px;
+  position: relative;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.ghost__item1{
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.ghost__item2{
+  bottom: 0;
+  left: 38%;
+  position: absolute;
+  width: 25%;
+  height: 50%;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  animation: ghost1 .8s linear infinite alternate-reverse;
+}
+
+.ghost__item3{
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  width: 25%;
+  height: 50%;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  animation: ghost2 .8s linear infinite alternate-reverse;
+}
+
+.ghost__item4{
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  width: 25%;
+  height: 50%;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  animation: ghost2 .8s linear infinite alternate-reverse;
+}
+
+@keyframes ghost1 {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-20%);
+  }
+}
+
+@keyframes ghost2 {
+  from {
+    transform: translateY(-20%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.eyes{
+  width: 20%;
+  height: 32%;
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 5%;
+  margin-top: 20%;
+  position: relative;
+  overflow: hidden;
+}
+
+.eyes:after{
+  content: '';
+  width: 100%;
+  height: 50%;
+  background-color: black;
+  position: absolute;
+  border-radius: 100%;
+  bottom: 0;
+  left: 20%;
+}
+
+.ghost__color_red{
+  background-color: red;
+}
+
+.ghost__color_blue{
+  background-color: blue;
+}
+
+.ghost__color_orange{
+  background-color: orange;
+}
+
+.ghosts{
+  display: flex;
+  flex-direction: row;
+}
+
+.footer__counter {
+  padding: 10px;
+}
+
+.footer__delete-completed{
+  padding: 10px;
+  visibility: hidden;
+  opacity: 0.5;
+  transition: opacity .1s;
+}
+
+
+
+.footer__delete-completed_view{
+  visibility: visible;
+  cursor: pointer;
+}
+
+.footer__delete-completed:hover{
+  text-decoration: underline;
+  opacity: 1;
 }
