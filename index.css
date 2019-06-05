@@ -105,8 +105,8 @@ body {
   display: block;
   width: 40px;
   height: 40px;
-  position: relative;
-  left: -50px;
+  position: absolute;
+  left: 20px;
   -webkit-appearance: none;
   -moz-appearance: none;
 }
@@ -145,6 +145,7 @@ body {
   margin: auto;
   font-size: 30px;
   padding: 20px;
+  padding-left: 80px;
   max-width: 600px;
   width: 100%;
   min-width: 400px;
@@ -153,10 +154,12 @@ body {
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
 }
+
 .header__input::placeholder{
   text-align: center;
   opacity: .3;
 }
+
 .header__input:focus {
   outline: none;
 }
@@ -170,8 +173,8 @@ body {
   background-image: url(./images/8bit-vremya-sutki-noch-more-2339.jpg);
   background-repeat: no-repeat;
   background-size: cover;
-  height: 600px;
   position: relative;
+  background-attachment: fixed;
 }
 
 .footer {
@@ -187,6 +190,7 @@ body {
   border: 2px solid #f1f1f1;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
+  margin-bottom: 20px;
 }
 
 .item__text_completed {
@@ -229,10 +233,11 @@ body {
   width: 40px;
   height: 30px;
   position: absolute;
-  top: -32px;
-  left: 20px;
+  top: -62px;
+  left: 22px;
   -webkit-appearance: none;
   -moz-appearance: none;
+  outline: none;
 }
 .main__toggle-all::after {
   position: absolute;
@@ -251,7 +256,6 @@ body {
 .list {
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
 }
 
 input[type="radio"] {
@@ -396,8 +400,6 @@ input[type="radio"]:checked + .footer__button {
   opacity: 0.5;
   transition: opacity .1s;
 }
-
-
 
 .footer__delete-completed_view{
   visibility: visible;

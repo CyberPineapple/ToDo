@@ -10,15 +10,15 @@ const buttonDeleteCompleted = document.querySelector(
 let listAll = [];
 
 input.addEventListener("keypress", event => addItem(event));
-window.addEventListener("DOMContentLoaded", () => view());
+window.addEventListener("DOMContentLoaded", () => reload());
 main.children[0].addEventListener("change", () => toggleAll());
-radioButton[0].addEventListener("change", () => view());
-radioButton[1].addEventListener("change", () => view());
-radioButton[2].addEventListener("change", () => view());
+radioButton[0].addEventListener("change", () => reload());
+radioButton[1].addEventListener("change", () => reload());
+radioButton[2].addEventListener("change", () => reload());
 buttonDeleteCompleted.addEventListener("click", () => deleteCompleted());
 
 addItem = () => {
-  if (event.key === "Enter" && input.value !== "") {
+  if (event.key === "Enter" && input.value && input.value[0] !== ' ' && input.value[input.value.length - 1] !== ' ') {
     listAll.push({
       text: input.value,
       completed: false,
@@ -26,7 +26,7 @@ addItem = () => {
     });
     input.value = "";
     localStorage.setItem("list", JSON.stringify(listAll));
-    view();
+    reload();
   }
 };
 
@@ -35,7 +35,7 @@ deleteItem = el => {
     return value.id != el.getAttribute("data-list-id");
   });
   localStorage.setItem("list", JSON.stringify(listAll));
-  view();
+  reload();
 };
 
 editElement = el => {
@@ -44,7 +44,7 @@ editElement = el => {
   input.type = "text";
   input.value = text;
   input.classList.add("item__edit");
-  input.addEventListener("focusout", () => addNewValueToMessage(el, input));
+  input.addEventListener("focusout", () => addNewValueToItem(el, input));
   input.addEventListener("keypress", event => {
     if (event.key === "Enter") {
       input.blur();
@@ -54,8 +54,8 @@ editElement = el => {
   input.focus();
 };
 
-addNewValueToMessage = (el, input) => {
-  if (input.value) {
+addNewValueToItem = (el, input) => {
+  if (input.value && input.value[0] !== ' ') {
     el.children[1].innerText = input.value;
     el.removeChild(input);
     for (key in listAll) {
@@ -84,7 +84,7 @@ toggleItemCheckBox = el => {
     }
   }
   localStorage.setItem("list", JSON.stringify(listAll));
-  view();
+  reload();
 };
 
 viewDeleteButton = el => {
@@ -106,33 +106,33 @@ toggleAll = () => {
     }
   }
   localStorage.setItem("list", JSON.stringify(listAll));
-  view();
+  reload();
 };
 
-view = () => {
+reload = () => {
   console.log(listAll);
   if (radioButton[0].checked) {
     while (main.children[1].firstChild) {
       main.children[1].removeChild(main.children[1].firstChild);
     }
     listAll = [];
-    setElements();
+    viewElements();
   } else if (radioButton[1].checked) {
     while (main.children[1].firstChild) {
       main.children[1].removeChild(main.children[1].firstChild);
     }
-    setCompletedElements();
+    viewCompletedElements();
   } else if (radioButton[2].checked) {
     while (main.children[1].firstChild) {
       main.children[1].removeChild(main.children[1].firstChild);
     }
-    setActiveElements();
+    viewActiveElements();
   }
   handleCompleted();
   counterActive();
 };
 
-setElements = () => {
+viewElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
   for (key in elements) {
     const el = document.createElement("li");
@@ -170,7 +170,7 @@ setElements = () => {
   }
 };
 
-setCompletedElements = () => {
+viewCompletedElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
   elements = elements.filter(value => {
     return value.completed === true;
@@ -204,7 +204,7 @@ setCompletedElements = () => {
   }
 };
 
-setActiveElements = () => {
+viewActiveElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
   elements = elements.filter(value => {
     return value.completed === false;
@@ -265,9 +265,9 @@ handleCompleted = () => {
 };
 
 deleteCompleted = () => {
-  listAll = listAll.filter( value => {
+  listAll = listAll.filter(value => {
     return value.completed == false;
-  })
-  localStorage.setItem('list', JSON.stringify(listAll));
-  view();
+  });
+  localStorage.setItem("list", JSON.stringify(listAll));
+  reload();
 };
