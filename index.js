@@ -1,8 +1,8 @@
 const inputFieldToNewValue = document.querySelector("[data-js-id=inputFieldToNewValue]");
-const main = document.querySelector("[data-js-id=main]");
-const buttonToggleAll = document.querySelector("[data-js-id=completedAll]");
+const buttonToggleAll = document.querySelector("[data-js-id=buttonToggleAll]");
 const buttonToggleShowItems = document.getElementsByName("buttonToggleShowItems");
 const counter = document.querySelector("[data-js-id=counter]");
+const itemList = document.querySelector("[data-js-id=itemList]");
 const buttonDeleteCompleted = document.querySelector(
   '[data-js-id="deleteCompleted"]'
 );
@@ -14,7 +14,7 @@ for (let i = 0; i < buttonToggleShowItems.length; i++){
 }
 inputFieldToNewValue.addEventListener("keypress", event => handleInputFieldOnPressEnter(event));
 window.addEventListener("DOMContentLoaded", () => handleWindowLoad());
-main.children[0].addEventListener("change", () => toggleAll());
+buttonToggleAll.addEventListener("change", () => toggleAll());
 buttonDeleteCompleted.addEventListener("click", () => handleButtonDeleteCompletedOnClick());
 
 handleInputFieldOnPressEnter = (event) =>{
@@ -47,19 +47,19 @@ addNewItem = () => {
 
 deleteItem = el => {
   listAll = listAll.filter(value => {
-    return value.id != el.getAttribute("data-list-id");
+    return value.id !== +el.getAttribute("data-list-id");
   });
   localStorage.setItem("list", JSON.stringify(listAll));
   reload();
 };
 
-editElement = el => {
-  let text = el.children[1].innerText;
+editElement = ( el, label ) => {
+  let text = label.innerText;
   const input = document.createElement("input");
   input.type = "text";
   input.value = text;
   input.classList.add("item__edit");
-  input.addEventListener("blur", () => addNewValueToItem(el, input));
+  input.addEventListener("blur", () => addNewValueToItem(el, input, label));
   input.addEventListener("keypress", event => {
     if (event.key === "Enter") {
       input.blur();
@@ -69,13 +69,13 @@ editElement = el => {
   input.focus();
 };
 
-addNewValueToItem = (el, input) => {
+addNewValueToItem = (el, input, label) => {
   if (input.value && input.value[0] !== ' ') {
-    el.children[1].innerText = input.value;
+    label.innerText = input.value;
     el.removeChild(input);
     for (key in listAll) {
       if (listAll[key].id == el.getAttribute("data-list-id")) {
-        listAll[key].text = el.children[1].innerText;
+        listAll[key].text = label.innerText;
         localStorage.setItem("list", JSON.stringify(listAll));
       }
     }
@@ -84,26 +84,26 @@ addNewValueToItem = (el, input) => {
   }
 };
 
-toggleItemCheckBox = el => {
+toggleItemCheckBox = ( el, checkbox ) => {
   for (key in listAll) {
-    if (listAll[key].id == el.getAttribute("data-list-id")) {
-      listAll[key].completed = el.children[0].checked;
+    if (listAll[key].id === +el.getAttribute("data-list-id")) {
+      listAll[key].completed = checkbox.checked;
     }
   }
   localStorage.setItem("list", JSON.stringify(listAll));
   reload();
 };
 
-showDeleteButton = el => {
-  el.children[2].classList.add("item__button-delete_view");
+showDeleteButton = deleteButton => {
+  deleteButton.classList.add("item__button-delete_view");
 };
 
-hideDeleteButton = el => {
-  el.children[2].classList.remove("item__button-delete_view");
+hideDeleteButton = deleteButton => {
+  deleteButton.classList.remove("item__button-delete_view");
 };
 
 toggleAll = () => {
-  if (main.children[0].checked) {
+  if (buttonToggleAll.checked) {
     for (key in listAll) {
       listAll[key].completed = true;
     }
@@ -125,23 +125,23 @@ reload = () => {
   }
   switch (value){
     case 'all': {
-      while (main.children[1].firstChild) {
-        main.children[1].removeChild(main.children[1].firstChild);
+      while (itemList.firstChild) {
+        itemList.removeChild(itemList.firstChild);
       }
       listAll = [];
       showElements(value);
       break;
       }
     case 'completed': {
-      while (main.children[1].firstChild) {
-        main.children[1].removeChild(main.children[1].firstChild);
+      while (itemList.firstChild) {
+        itemList.removeChild(itemList.firstChild);
       }
       showCompletedElements();
       break;
       }
     case 'active': {
-      while (main.children[1].firstChild) {
-        main.children[1].removeChild(main.children[1].firstChild);
+      while (itemList.firstChild) {
+        itemList.removeChild(itemList.firstChild);
       }
       showActiveElements();
       break;
@@ -169,18 +169,18 @@ showElements = () => {
     el.appendChild(checkbox);
     el.appendChild(label);
     el.appendChild(deleteButton);
-    el.addEventListener("mouseover", () => showDeleteButton(el));
-    el.addEventListener("mouseout", () => hideDeleteButton(el));
-    checkbox.addEventListener("change", () => toggleItemCheckBox(el));
+    el.addEventListener("mouseover", () => showDeleteButton(deleteButton));
+    el.addEventListener("mouseout", () => hideDeleteButton(deleteButton));
+    checkbox.addEventListener("change", () => toggleItemCheckBox(el, checkbox));
     checkbox.checked = elements[key].completed;
     if (checkbox.checked) {
-      el.children[1].classList.add("item__text_completed");
+      label.classList.add("item__text_completed");
     }
     label.innerText = elements[key].text;
-    el.children[1].addEventListener("dblclick", () => editElement(el));
+    label.addEventListener("dblclick", () => editElement(el, label));
     el.classList.add("item");
     el.dataset.listId = elements[key].id;
-    main.children[1].appendChild(el);
+    itemList.appendChild(el);
 
     listAll.push({
       text: elements[key].text,
@@ -213,12 +213,12 @@ showCompletedElements = () => {
     el.appendChild(deleteButton);
     el.addEventListener("mouseover", () => showDeleteButton(el));
     el.addEventListener("mouseout", () => hideDeleteButton(el));
-    checkbox.addEventListener("change", () => toggleItemCheckBox(el));
+    checkbox.addEventListener("change", () => toggleItemCheckBox(el, checkbox));
     label.innerText = elements[key].text;
-    el.children[1].addEventListener("dblclick", () => editElement(el));
+    label.addEventListener("dblclick", () => editElement(el, label));
     el.classList.add("item");
     el.dataset.listId = elements[key].id;
-    main.children[1].appendChild(el);
+    itemList.appendChild(el);
   }
 };
 
@@ -243,12 +243,12 @@ showActiveElements = () => {
     el.appendChild(deleteButton);
     el.addEventListener("mouseover", () => showDeleteButton(el));
     el.addEventListener("mouseout", () => hideDeleteButton(el));
-    checkbox.addEventListener("change", () => toggleItemCheckBox(el));
+    checkbox.addEventListener("change", () => toggleItemCheckBox(el, checkbox));
     label.innerText = elements[key].text;
-    el.children[1].addEventListener("dblclick", () => editElement(el));
+    label.addEventListener("dblclick", () => editElement(el,label));
     el.classList.add("item");
     el.dataset.listId = elements[key].id;
-    main.children[1].appendChild(el);
+    itemList.appendChild(el);
   }
 };
 
@@ -259,17 +259,15 @@ counterActive = () => {
 
 handleStateApp = () => {
   if (listAll.length > 0) {
-    main.children[0].style.display = "block";
+    buttonToggleAll.style.display = "block";
   } else {
-    main.children[0].style.display = "none";
+    buttonToggleAll.style.display = "none";
   }
-  let completedList = listAll.filter(value => {
-    return value.completed == true;
-  });
+  let completedList = listAll.filter(value => value.completed);
   if (completedList.length === listAll.length) {
-    main.children[0].checked = true;
+    buttonToggleAll.checked = true;
   } else {
-    main.children[0].checked = false;
+    buttonToggleAll.checked = false;
   }
   if (completedList.length > 0) {
     buttonDeleteCompleted.classList.add("footer__delete-completed_view");
@@ -286,9 +284,7 @@ handleStateApp = () => {
 };
 
 deleteCompleted = () => {
-  listAll = listAll.filter(value => {
-    return value.completed == false;
-  });
+  listAll = listAll.filter(value => !value.completed);
   localStorage.setItem("list", JSON.stringify(listAll));
   reload();
 };
