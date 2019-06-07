@@ -1,4 +1,4 @@
-const input = document.querySelector("[data-js-id=input]");
+const input = document.querySelector("[data-js-id=inputNewValue]");
 const main = document.querySelector("[data-js-id=main]");
 const buttonCompleteAll = document.querySelector("[data-js-id=completedAll]");
 const radioButton = document.getElementsByName("button");
@@ -71,17 +71,9 @@ addNewValueToItem = (el, input) => {
 };
 
 toggleItemCheckBox = el => {
-  if (el.children[0].checked) {
-    for (key in listAll) {
-      if (listAll[key].id == el.getAttribute("data-list-id")) {
-        listAll[key].completed = true;
-      }
-    }
-  } else {
-    for (key in listAll) {
-      if (listAll[key].id == el.getAttribute("data-list-id")) {
-        listAll[key].completed = false;
-      }
+  for (key in listAll) {
+    if (listAll[key].id == el.getAttribute("data-list-id")) {
+      listAll[key].completed = el.children[0].checked;
     }
   }
   localStorage.setItem("list", JSON.stringify(listAll));
@@ -207,9 +199,7 @@ viewCompletedElements = () => {
 
 viewActiveElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
-  elements = elements.filter(value => {
-    return value.completed === false;
-  });
+  elements = elements.filter(value => !value.completed);
   for (key in elements) {
     const el = document.createElement("li");
     const checkbox = document.createElement("input");
@@ -238,21 +228,15 @@ viewActiveElements = () => {
 };
 
 counterActive = () => {
-  let activeItems = listAll.filter(value => {
-    return value.completed !== true;
-  });
+  let activeItems = listAll.filter(value => !value.completed);
   counter.innerText = `items left ${activeItems.length}`;
 };
 
 handleStateApp = () => {
   if (main.children[1].firstChild) {
     main.children[0].style.display = "block";
-    footer.classList.add('footer_view');
-    input.classList.remove('header__input_primal');
   } else {
     main.children[0].style.display = "none";
-    footer.classList.remove('footer_view');
-    input.classList.add('header__input_primal');
   }
   let completedList = listAll.filter(value => {
     return value.completed == true;
@@ -266,6 +250,13 @@ handleStateApp = () => {
     buttonDeleteCompleted.classList.add("footer__delete-completed_view");
   } else {
     buttonDeleteCompleted.classList.remove("footer__delete-completed_view");
+  }
+  if (listAll.length > 0){
+    footer.classList.add('footer_view');
+    input.classList.remove('header__input_primal');
+  } else {
+    footer.classList.remove('footer_view');
+    input.classList.add('header__input_primal');
   }
 };
 
