@@ -44,7 +44,7 @@
               </div>
             </div>
         </div>
-        <input class="header__input" type="text" autofocus data-js-id="inputNewValue" placeholder="What needs to be done?">
+        <input class="header__input" type="text" autofocus data-js-id="inputFieldToNewValue" placeholder="What needs to be done?">
     </div>
     <div class="main" data-js-id="main">
       <input type="checkbox" class='main__toggle-all'>
@@ -52,11 +52,11 @@
     </div>
     <div class="footer" data-js-id="footer">
       <p data-js-id="counter" class="footer__counter">items 0</p>
-      <input type="radio" name="button" id="all" checked>
+      <input type="radio" name="buttonToggleShowItems" id="all" checked value='all'>
       <label for="all" class="footer__button">all</label>
-      <input type="radio" name="button" id="completed">
+      <input type="radio" name="buttonToggleShowItems" id="completed"  value='completed'>
       <label for="completed" class="footer__button">completed</label>
-      <input type="radio" name="button" id="active">
+      <input type="radio" name="buttonToggleShowItems" id="active" value='active'>
       <label for="active" class="footer__button">active</label>
       <div class="footer__delete-completed" data-js-id="deleteCompleted">delete completed</div>
     </div>

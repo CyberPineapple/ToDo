@@ -1,7 +1,7 @@
-const input = document.querySelector("[data-js-id=inputNewValue]");
+const inputFieldToNewValue = document.querySelector("[data-js-id=inputFieldToNewValue]");
 const main = document.querySelector("[data-js-id=main]");
-const buttonCompleteAll = document.querySelector("[data-js-id=completedAll]");
-const radioButton = document.getElementsByName("button");
+const buttonToggleAll = document.querySelector("[data-js-id=completedAll]");
+const buttonToggleShowItems = document.getElementsByName("buttonToggleShowItems");
 const counter = document.querySelector("[data-js-id=counter]");
 const buttonDeleteCompleted = document.querySelector(
   '[data-js-id="deleteCompleted"]'
@@ -9,23 +9,37 @@ const buttonDeleteCompleted = document.querySelector(
 const footer = document.querySelector("[data-js-id=footer]");
 
 let listAll = [];
-
-input.addEventListener("keypress", event => addItem(event));
-window.addEventListener("DOMContentLoaded", () => reload());
+for (let i = 0; i < buttonToggleShowItems.length; i++){
+  buttonToggleShowItems[i].addEventListener("change", () => reload());
+}
+inputFieldToNewValue.addEventListener("keypress", event => handleInputFieldOnPressEnter(event));
+window.addEventListener("DOMContentLoaded", () => handleWindowLoad());
 main.children[0].addEventListener("change", () => toggleAll());
-radioButton[0].addEventListener("change", () => reload());
-radioButton[1].addEventListener("change", () => reload());
-radioButton[2].addEventListener("change", () => reload());
-buttonDeleteCompleted.addEventListener("click", () => deleteCompleted());
+buttonDeleteCompleted.addEventListener("click", () => handleButtonDeleteCompletedOnClick());
 
-addItem = () => {
-  if (event.key === "Enter" && input.value && input.value[0] !== ' ' && input.value[input.value.length - 1] !== ' ') {
+handleInputFieldOnPressEnter = (event) =>{
+  if (event.key === 'Enter'){
+    addNewItem();
+  }
+}
+
+handleWindowLoad = () => {
+  reload();
+}
+
+handleButtonDeleteCompletedOnClick = () =>{
+  deleteCompleted();
+}
+
+
+addNewItem = () => {
+  if (inputFieldToNewValue.value && inputFieldToNewValue.value[0] !== ' ' && inputFieldToNewValue.value[inputFieldToNewValue.value.length - 1] !== ' ') {
     listAll.push({
-      text: input.value,
+      text: inputFieldToNewValue.value,
       completed: false,
       id: Date.now()
     });
-    input.value = "";
+    inputFieldToNewValue.value = "";
     localStorage.setItem("list", JSON.stringify(listAll));
     reload();
   }
@@ -45,7 +59,7 @@ editElement = el => {
   input.type = "text";
   input.value = text;
   input.classList.add("item__edit");
-  input.addEventListener("focusout", () => addNewValueToItem(el, input));
+  input.addEventListener("blur", () => addNewValueToItem(el, input));
   input.addEventListener("keypress", event => {
     if (event.key === "Enter") {
       input.blur();
@@ -80,7 +94,7 @@ toggleItemCheckBox = el => {
   reload();
 };
 
-viewDeleteButton = el => {
+showDeleteButton = el => {
   el.children[2].classList.add("item__button-delete_view");
 };
 
@@ -103,29 +117,42 @@ toggleAll = () => {
 };
 
 reload = () => {
-  console.log(listAll);
-  if (radioButton[0].checked) {
-    while (main.children[1].firstChild) {
-      main.children[1].removeChild(main.children[1].firstChild);
+  let value;
+  for (key in buttonToggleShowItems){
+    if (buttonToggleShowItems[key].checked){
+      value = buttonToggleShowItems[key].value
     }
-    listAll = [];
-    viewElements();
-  } else if (radioButton[1].checked) {
-    while (main.children[1].firstChild) {
-      main.children[1].removeChild(main.children[1].firstChild);
-    }
-    viewCompletedElements();
-  } else if (radioButton[2].checked) {
-    while (main.children[1].firstChild) {
-      main.children[1].removeChild(main.children[1].firstChild);
-    }
-    viewActiveElements();
   }
-  handleStateApp();
-  counterActive();
+  switch (value){
+    case 'all': {
+      while (main.children[1].firstChild) {
+        main.children[1].removeChild(main.children[1].firstChild);
+      }
+      listAll = [];
+      showElements(value);
+      break;
+      }
+    case 'completed': {
+      while (main.children[1].firstChild) {
+        main.children[1].removeChild(main.children[1].firstChild);
+      }
+      showCompletedElements();
+      break;
+      }
+    case 'active': {
+      while (main.children[1].firstChild) {
+        main.children[1].removeChild(main.children[1].firstChild);
+      }
+      showActiveElements();
+      break;
+      }
+    default: break;
+    }
+    handleStateApp();
+    counterActive();
 };
 
-viewElements = () => {
+showElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
   for (key in elements) {
     const el = document.createElement("li");
@@ -142,7 +169,7 @@ viewElements = () => {
     el.appendChild(checkbox);
     el.appendChild(label);
     el.appendChild(deleteButton);
-    el.addEventListener("mouseover", () => viewDeleteButton(el));
+    el.addEventListener("mouseover", () => showDeleteButton(el));
     el.addEventListener("mouseout", () => hideDeleteButton(el));
     checkbox.addEventListener("change", () => toggleItemCheckBox(el));
     checkbox.checked = elements[key].completed;
@@ -163,11 +190,9 @@ viewElements = () => {
   }
 };
 
-viewCompletedElements = () => {
+showCompletedElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
-  elements = elements.filter(value => {
-    return value.completed === true;
-  });
+  elements = elements.filter(value => value.completed);
   for (key in elements) {
     const el = document.createElement("li");
     const checkbox = document.createElement("input");
@@ -186,7 +211,7 @@ viewCompletedElements = () => {
     el.appendChild(checkbox);
     el.appendChild(label);
     el.appendChild(deleteButton);
-    el.addEventListener("mouseover", () => viewDeleteButton(el));
+    el.addEventListener("mouseover", () => showDeleteButton(el));
     el.addEventListener("mouseout", () => hideDeleteButton(el));
     checkbox.addEventListener("change", () => toggleItemCheckBox(el));
     label.innerText = elements[key].text;
@@ -197,7 +222,7 @@ viewCompletedElements = () => {
   }
 };
 
-viewActiveElements = () => {
+showActiveElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
   elements = elements.filter(value => !value.completed);
   for (key in elements) {
@@ -216,7 +241,7 @@ viewActiveElements = () => {
     el.appendChild(checkbox);
     el.appendChild(label);
     el.appendChild(deleteButton);
-    el.addEventListener("mouseover", () => viewDeleteButton(el));
+    el.addEventListener("mouseover", () => showDeleteButton(el));
     el.addEventListener("mouseout", () => hideDeleteButton(el));
     checkbox.addEventListener("change", () => toggleItemCheckBox(el));
     label.innerText = elements[key].text;
@@ -233,7 +258,7 @@ counterActive = () => {
 };
 
 handleStateApp = () => {
-  if (main.children[1].firstChild) {
+  if (listAll.length > 0) {
     main.children[0].style.display = "block";
   } else {
     main.children[0].style.display = "none";
@@ -253,10 +278,10 @@ handleStateApp = () => {
   }
   if (listAll.length > 0){
     footer.classList.add('footer_view');
-    input.classList.remove('header__input_primal');
+    inputFieldToNewValue.classList.remove('header__input_primal');
   } else {
     footer.classList.remove('footer_view');
-    input.classList.add('header__input_primal');
+    inputFieldToNewValue.classList.add('header__input_primal');
   }
 };
 
