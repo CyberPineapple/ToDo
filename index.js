@@ -10,12 +10,20 @@ const footer = document.querySelector("[data-js-id=footer]");
 
 let listAll = [];
 for (let i = 0; i < buttonToggleShowItems.length; i++){
-  buttonToggleShowItems[i].addEventListener("change", () => reload());
+  buttonToggleShowItems[i].addEventListener("change", () => handleButtonToggleShowItemsOnChange());
 }
 inputFieldToNewValue.addEventListener("keypress", event => handleInputFieldOnPressEnter(event));
 window.addEventListener("DOMContentLoaded", () => handleWindowLoad());
-buttonToggleAll.addEventListener("change", () => toggleAll());
+buttonToggleAll.addEventListener("change", () => handleButtonToggleAllOnChange());
 buttonDeleteCompleted.addEventListener("click", () => handleButtonDeleteCompletedOnClick());
+
+handleButtonToggleShowItemsOnChange = () =>{
+  reload();
+}
+
+handleButtonToggleAllOnChange = () => {
+  toggleAll();
+}
 
 handleInputFieldOnPressEnter = (event) =>{
   if (event.key === 'Enter'){
@@ -46,9 +54,7 @@ addNewItem = () => {
 };
 
 deleteItem = el => {
-  listAll = listAll.filter(value => {
-    return value.id !== +el.getAttribute("data-list-id");
-  });
+  listAll = listAll.filter(value => value.id !== +el.getAttribute("data-list-id"));
   localStorage.setItem("list", JSON.stringify(listAll));
   reload();
 };
@@ -59,15 +65,21 @@ editElement = ( el, label ) => {
   input.type = "text";
   input.value = text;
   input.classList.add("item__edit");
-  input.addEventListener("blur", () => addNewValueToItem(el, input, label));
-  input.addEventListener("keypress", event => {
-    if (event.key === "Enter") {
-      input.blur();
-    }
-  });
+  input.addEventListener("blur", () => handleEditElementOnBlur(el, input, label));
+  input.addEventListener("keypress", event => handleEditElementPressEnter(event, input));
   el.appendChild(input);
   input.focus();
 };
+
+handleEditElementPressEnter = (event, input) => {
+  if (event.key === "Enter") {
+    input.blur();
+  }
+};
+
+handleEditElementOnBlur = (el, input, label) =>{
+  addNewValueToItem(el, input, label);
+}
 
 addNewValueToItem = (el, input, label) => {
   if (input.value && input.value[0] !== ' ') {
@@ -161,7 +173,7 @@ showElements = () => {
     const deleteButton = document.createElement("div");
 
     deleteButton.classList.add("item__button-delete");
-    deleteButton.addEventListener("click", () => deleteItem(el));
+    deleteButton.addEventListener("click", () => handleDeleteButtonOnCLick(el));
     checkbox.type = "checkbox";
     checkbox.name = "checkList";
     checkbox.classList.add("item__checkbox");
@@ -169,15 +181,15 @@ showElements = () => {
     el.appendChild(checkbox);
     el.appendChild(label);
     el.appendChild(deleteButton);
-    el.addEventListener("mouseover", () => showDeleteButton(deleteButton));
-    el.addEventListener("mouseout", () => hideDeleteButton(deleteButton));
-    checkbox.addEventListener("change", () => toggleItemCheckBox(el, checkbox));
+    el.addEventListener("mouseover", () => handleElementMouseOver(deleteButton));
+    el.addEventListener("mouseout", () => handleElementMouseOut(deleteButton));
+    checkbox.addEventListener("change", () => handleElementCheckboxOnChange(el, checkbox));
     checkbox.checked = elements[key].completed;
     if (checkbox.checked) {
       label.classList.add("item__text_completed");
     }
     label.innerText = elements[key].text;
-    label.addEventListener("dblclick", () => editElement(el, label));
+    label.addEventListener("dblclick", () => handleElementOnDblClick(el,label));
     el.classList.add("item");
     el.dataset.listId = elements[key].id;
     itemList.appendChild(el);
@@ -189,6 +201,17 @@ showElements = () => {
     });
   }
 };
+handleElementCheckboxOnChange = (el, checkbox) => {
+  toggleItemCheckBox(el, checkbox);
+}
+
+handleElementMouseOver = deleteButton => {
+  showDeleteButton(deleteButton);
+};
+
+handleElementMouseOut = deleteButton => {
+  hideDeleteButton(deleteButton);
+}
 
 showCompletedElements = () => {
   let elements = JSON.parse(localStorage.getItem("list"));
@@ -200,7 +223,7 @@ showCompletedElements = () => {
     const deleteButton = document.createElement("div");
 
     deleteButton.classList.add("item__button-delete");
-    deleteButton.addEventListener("click", () => deleteItem(el));
+    deleteButton.addEventListener("click", () => handleDeleteButtonOnCLick(el));
     checkbox.type = "checkbox";
     checkbox.name = "checkList";
     checkbox.checked = true;
@@ -211,11 +234,11 @@ showCompletedElements = () => {
     el.appendChild(checkbox);
     el.appendChild(label);
     el.appendChild(deleteButton);
-    el.addEventListener("mouseover", () => showDeleteButton(el));
-    el.addEventListener("mouseout", () => hideDeleteButton(el));
-    checkbox.addEventListener("change", () => toggleItemCheckBox(el, checkbox));
+    el.addEventListener("mouseover", () => handleElementMouseOver(deleteButton));
+    el.addEventListener("mouseout", () => handleElementMouseOut(deleteButton));
+    checkbox.addEventListener("change", () => handleElementCheckboxOnChange(el, checkbox));
     label.innerText = elements[key].text;
-    label.addEventListener("dblclick", () => editElement(el, label));
+    label.addEventListener("dblclick", () => handleElementOnDblClick(el,label));
     el.classList.add("item");
     el.dataset.listId = elements[key].id;
     itemList.appendChild(el);
@@ -232,7 +255,7 @@ showActiveElements = () => {
     const deleteButton = document.createElement("div");
 
     deleteButton.classList.add("item__button-delete");
-    deleteButton.addEventListener("click", () => deleteItem(el));
+    deleteButton.addEventListener("click", () => handleDeleteButtonOnCLick(el));
     checkbox.type = "checkbox";
     checkbox.name = "checkList";
     checkbox.checked = false;
@@ -241,16 +264,26 @@ showActiveElements = () => {
     el.appendChild(checkbox);
     el.appendChild(label);
     el.appendChild(deleteButton);
-    el.addEventListener("mouseover", () => showDeleteButton(el));
-    el.addEventListener("mouseout", () => hideDeleteButton(el));
-    checkbox.addEventListener("change", () => toggleItemCheckBox(el, checkbox));
+    el.addEventListener("mouseover", () => handleElementMouseOver(deleteButton));
+    el.addEventListener("mouseout", () => handleElementMouseOut(deleteButton));
+    checkbox.addEventListener("change", () => handleElementCheckboxOnChange(el, checkbox));
     label.innerText = elements[key].text;
-    label.addEventListener("dblclick", () => editElement(el,label));
+    label.addEventListener("dblclick", () => handleElementOnDblClick(el,label));
     el.classList.add("item");
     el.dataset.listId = elements[key].id;
     itemList.appendChild(el);
   }
 };
+
+
+handleDeleteButtonOnCLick = el => {
+  deleteItem(el);
+};
+
+
+handleElementOnDblClick = (el, label) => {
+  editElement(el,label);
+}
 
 counterActive = () => {
   let activeItems = listAll.filter(value => !value.completed);
@@ -260,8 +293,12 @@ counterActive = () => {
 handleStateApp = () => {
   if (listAll.length > 0) {
     buttonToggleAll.style.display = "block";
+    footer.classList.add('footer_view');
+    inputFieldToNewValue.classList.remove('header__input_primal');
   } else {
     buttonToggleAll.style.display = "none";
+    footer.classList.remove('footer_view');
+    inputFieldToNewValue.classList.add('header__input_primal');
   }
   let completedList = listAll.filter(value => value.completed);
   if (completedList.length === listAll.length) {
@@ -273,13 +310,6 @@ handleStateApp = () => {
     buttonDeleteCompleted.classList.add("footer__delete-completed_view");
   } else {
     buttonDeleteCompleted.classList.remove("footer__delete-completed_view");
-  }
-  if (listAll.length > 0){
-    footer.classList.add('footer_view');
-    inputFieldToNewValue.classList.remove('header__input_primal');
-  } else {
-    footer.classList.remove('footer_view');
-    inputFieldToNewValue.classList.add('header__input_primal');
   }
 };
 
